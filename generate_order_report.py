@@ -28,12 +28,13 @@ LEFT JOIN payments AS pay
 def main() -> None:
     base_dir = Path(__file__).parent.resolve()
     db_path = base_dir / "ecommerce.db"
-    output_file = base_dir / "data" / "order_report.csv"
+    output_dir = base_dir / "results"
+    output_file = output_dir / "order_report.csv"
 
     with sqlite3.connect(db_path) as conn:
         df = pd.read_sql_query(QUERY, conn)
 
-    output_file.parent.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_file, index=False)
     print(f"Saved {len(df)} rows to {output_file}")
 
